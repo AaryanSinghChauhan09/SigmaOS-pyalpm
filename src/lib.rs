@@ -7,14 +7,14 @@ use std::fmt;
 
 /// Errors produced by this component. Fail-fast: errors are returned, not panicked.
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub enum Sigmaos_pyalpmError {
+pub enum PyalpmError {
     /// The requested operation is not valid in the current state.
     InvalidState,
     /// Input failed validation.
     InvalidInput(String),
 }
 
-impl fmt::Display for Sigmaos_pyalpmError {
+impl fmt::Display for PyalpmError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::InvalidState => write!(f, "invalid state"),
@@ -23,20 +23,20 @@ impl fmt::Display for Sigmaos_pyalpmError {
     }
 }
 
-impl std::error::Error for Sigmaos_pyalpmError {}
+impl std::error::Error for PyalpmError {}
 
 /// Core component type. Holds configuration; performs no I/O by default.
 #[derive(Debug, Clone, Default)]
-pub struct Sigmaos_pyalpm {
+pub struct Pyalpm {
     name: String,
 }
 
-impl Sigmaos_pyalpm {
+impl Pyalpm {
     /// Create a new component instance. Fails fast on empty names.
-    pub fn new(name: impl Into<String>) -> Result<Self, Sigmaos_pyalpmError> {
+    pub fn new(name: impl Into<String>) -> Result<Self, PyalpmError> {
         let name = name.into();
         if name.trim().is_empty() {
-            return Err(Sigmaos_pyalpmError::InvalidInput("name must not be empty".into()));
+            return Err(PyalpmError::InvalidInput("name must not be empty".into()));
         }
         Ok(Self { name })
     }
@@ -47,9 +47,9 @@ impl Sigmaos_pyalpm {
     }
 
     /// Perform the component's primary action. Returns a deterministic result.
-    pub fn run(&self) -> Result<String, Sigmaos_pyalpmError> {
+    pub fn run(&self) -> Result<String, PyalpmError> {
         if self.name.is_empty() {
-            return Err(Sigmaos_pyalpmError::InvalidState);
+            return Err(PyalpmError::InvalidState);
         }
         Ok(format!("{}: ok", self.name))
     }
@@ -62,18 +62,18 @@ mod tests {
     #[test]
     fn new_rejects_empty_name() {
         // Arrange / Act / Assert
-        assert!(matches!(Sigmaos_pyalpm::new("  "), Err(Sigmaos_pyalpmError::InvalidInput(_))));
+        assert!(matches!(Pyalpm::new("  "), Err(PyalpmError::InvalidInput(_))));
     }
 
     #[test]
     fn run_returns_deterministic_result() {
-        let c = Sigmaos_pyalpm::new("test").unwrap();
+        let c = Pyalpm::new("test").unwrap();
         assert_eq!(c.run().unwrap(), "test: ok");
     }
 
     #[test]
     fn name_is_accessible() {
-        let c = Sigmaos_pyalpm::new("abc").unwrap();
+        let c = Pyalpm::new("abc").unwrap();
         assert_eq!(c.name(), "abc");
     }
 }
