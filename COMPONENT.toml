@@ -3,7 +3,7 @@ name = "SigmaOS-pyalpm"
 tier = 2
 stability = "scaffold"
 language = "rust"
-description = "pyalpm component"
+description = "SigmaOS pyalpm component (Arch Linux inspired)"
 upstream = []
 
 [contract]
