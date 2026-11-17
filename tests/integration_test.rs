@@ -1,10 +1,18 @@
 // Integration test for SigmaOS-pyalpm
 // Verifies the crate builds and links as a dependency.
-#![allow(unused_imports)]
 
-use sigmaos_pyalpm as _;
+use sigmaos_pyalpm::{AlpmDatabase, Package};
 
 #[test]
 fn crate_links_and_runs() {
-    assert_eq!(2 + 2, 4);
+    // Arrange
+    let mut db = AlpmDatabase::new();
+    db.sync().unwrap();
+    db.add_package(Package::new("vim", "9.0"));
+
+    // Act
+    let res = db.install("vim");
+
+    // Assert
+    assert!(res.is_ok());
 }

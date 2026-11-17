@@ -1,16 +1,16 @@
 [component]
 name = "SigmaOS-pyalpm"
 tier = 2
-stability = "scaffold"
+stability = "beta"
 language = "rust"
-description = "SigmaOS pyalpm component (Arch Linux inspired)"
+description = "ALPM package management interface with database sync, install, remove, and query"
 upstream = []
 
 [contract]
-provides = ["component"]
+provides = ["package-management", "alpm-interface", "package-database"]
 depends_on = []
 
 [maturity]
-status = "Scaffold"
-test_evidence = "Compiles and passes AAA unit tests"
-next_milestone = "Hardware and runtime integration"
+status = "Implemented"
+test_evidence = "cargo test --offline unit tests pass"
+next_milestone = "Dependency resolution and transaction rollback"

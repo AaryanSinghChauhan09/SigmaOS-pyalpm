@@ -3,6 +3,11 @@ name = "sigmaos-pyalpm"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
-description = "Python bindings for the ALPM library — SigmaOS component inspired by Arch Linux infrastructure."
+description = "ALPM package management interface for SigmaOS"
+repository = "https://github.com/AaryanSinghChauhan09/SigmaOS-pyalpm"
 
 [dependencies]
+
+[lib]
+name = "sigmaos_pyalpm"
+path = "src/lib.rs"
